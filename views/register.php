@@ -8,7 +8,7 @@ use Util\Util;
 <link href="views/css/register.css" rel="stylesheet">
 
 <form class="form-register" method="post"
-      action="<?php echo Util::action(Controller::ACTION_LOGIN, array('view' => $view)); ?>">
+      action="<?php echo Util::action(Controller::ACTION_REGISTER, array('view' => $view)); ?>">
 
     <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 

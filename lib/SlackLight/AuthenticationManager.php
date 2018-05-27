@@ -12,12 +12,22 @@ class AuthenticationManager extends BaseObject
         $user = DataManager::getUserByUserName($userName);
 
         if ($user != null &&
-            $user->getPasswordHash() == hash('sha1', $userName . '|' . $password)) {
+            $user->getPasswordHash() == hash('sha1', $userName.'|'.$password)) {
             $_SESSION['user'] = $user->getId();
             return true;
         } else {
             self::signOut();
             return false;
+        }
+    }
+
+    public static function register(string $userName, string $password): bool
+    {
+        $user = DataManager::getUserByUserName($userName);
+        if ($user != null) {
+            return false;
+        } else {
+            return DataManager::storeUser($userName, hash('sha1', $userName.'|'.$password));
         }
     }
 

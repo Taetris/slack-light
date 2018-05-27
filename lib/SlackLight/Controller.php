@@ -38,7 +38,7 @@ class Controller extends BaseObject
 
         $action = $_REQUEST[self::ACTION];
         if (!isset($action)) {
-            throw new \Exception(self::ACTION . ' not specified.');
+            throw new \Exception(self::ACTION.' not specified.');
         }
 
         switch ($action) {
@@ -53,10 +53,13 @@ class Controller extends BaseObject
                 Util::redirect();
                 break;
             case self::ACTION_REGISTER:
-                Util::redirect('index.php?view=register');
+                if (!AuthenticationManager::register($_REQUEST[self::USER_NAME], $_REQUEST[self::USER_PASSWORD])) {
+                    self::forwardRequest(['Failed to register. User already exists.']);
+                }
+                Util::redirect();
                 break;
-            default :
-                throw new \Exception('Unknown controller action: ' . $action);
+            default:
+                throw new \Exception('Unknown controller action: '.$action);
                 break;
         }
     }
@@ -72,8 +75,8 @@ class Controller extends BaseObject
         }
 
         if (count($errors) > 0) {
-            $target .= '&errors=' . urlencode(serialize($errors));
-            header('Location:' . $target);
+            $target .= '&errors='.urlencode(serialize($errors));
+            header('Location:'.$target);
             exit();
         }
     }

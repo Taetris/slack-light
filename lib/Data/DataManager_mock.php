@@ -6,6 +6,12 @@ include 'IDataManager.php';
 
 class DataManager implements IDataManager
 {
+    public static function storeUser($userName, $passwordHash): bool
+    {
+        // stub
+        return true;
+    }
+
     public static function getUserById(int $userId)
     {
         return array_key_exists($userId, self::getMockData('users')) ?

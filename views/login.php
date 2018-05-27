@@ -20,9 +20,6 @@ use Util\Util;
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
 </form>
 
-<form class="form-login" method="post"
-      action="<?php echo Util::action(Controller::ACTION_REGISTER, array('view' => $view)); ?>">
-    <button class="btn btn-link btn-lg" type="submit">Register</button>
-</form>
+<a href="index.php?view=register">Register</a>
 
 <?php require_once('partials/footer.php'); ?>
