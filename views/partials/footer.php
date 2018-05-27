@@ -2,6 +2,8 @@
 
 <?php
 
+use Util\Util;
+
 if (isset($errors) && is_array($errors)): ?>
   <div class="errors alert alert-danger">
     <ul>

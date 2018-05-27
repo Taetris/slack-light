@@ -1,5 +1,8 @@
 <?php
 declare(strict_types=1);
+
+use Session\SessionContext;
+
 error_reporting(E_ALL);
 ini_set("display_errors", "1");
 
@@ -13,7 +16,7 @@ spl_autoload_register(
 );
 
 // create session
-//Bookshop\SessionContext::create();
+SessionContext::create();
 
-//require_once(__DIR__ . '/../lib/Data/DataManager_mock.php');
+require_once(__DIR__ . '/../lib/Data/DataManager_mock.php');
 //require_once(__DIR__ . '/../lib/Data/DataManager_mysqlpdo.php');

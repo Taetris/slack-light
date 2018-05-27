@@ -1,10 +1,8 @@
 <?php
 
-
 if (isset($_GET["errors"])) {
 	$errors = unserialize(urldecode($_GET["errors"]));
 }
-// /needed for shopping cart
 ?>
 
 <!DOCTYPE html>
