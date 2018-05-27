@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace SlackLight;
 
@@ -7,11 +7,10 @@ use Util\Util;
 
 class Controller extends BaseObject
 {
-    // static strings used in views
-
     const ACTION = 'action';
     const PAGE = 'page';
     const ACTION_LOGIN = 'login';
+    const ACTION_REGISTER = 'register';
     const ACTION_LOGOUT = 'logout';
     const USER_NAME = 'userName';
     const USER_PASSWORD = 'password';
@@ -43,22 +42,24 @@ class Controller extends BaseObject
         }
 
         switch ($action) {
-            case self::ACTION_LOGIN :
+            case self::ACTION_LOGIN:
                 if (!AuthenticationManager::authenticate($_REQUEST[self::USER_NAME], $_REQUEST[self::USER_PASSWORD])) {
                     self::forwardRequest(['Invalid user credentials.']);
                 }
                 Util::redirect();
                 break;
-            case self::ACTION_LOGOUT :
+            case self::ACTION_LOGOUT:
                 AuthenticationManager::signOut();
                 Util::redirect();
+                break;
+            case self::ACTION_REGISTER:
+                Util::redirect('index.php?view=register');
                 break;
             default :
                 throw new \Exception('Unknown controller action: ' . $action);
                 break;
         }
     }
-
 
     protected function forwardRequest(array $errors = null, $target = null)
     {
@@ -72,7 +73,7 @@ class Controller extends BaseObject
 
         if (count($errors) > 0) {
             $target .= '&errors=' . urlencode(serialize($errors));
-            header('Location:'.$target);
+            header('Location:' . $target);
             exit();
         }
     }

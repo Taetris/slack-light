@@ -5,52 +5,24 @@ use Util\Util;
 
 ?>
 
-<div class="container">
-    <div class="row main">
+<link href="views/css/login.css" rel="stylesheet">
 
-        <div class="panel-heading">
-            <div class="panel-title text-center">
-                <h1 class="title">Slack Light</h1>
-                <hr/>
-            </div>
-        </div>
+<form class="form-login" method="post"
+      action="<?php echo Util::action(Controller::ACTION_LOGIN, array('view' => $view)); ?>">
 
-        <div class="main-login main-center">
-            <form class="form-horizontal" method="post" action="<?php echo Util::action(Controller::ACTION_LOGIN, array('view' => $view)); ?>">
+    <h1 class="h3 mb-3 font-weight-normal">Slack Light</h1>
 
-                <div class="form-group">
-                    <label for="name" class="cols-sm-2 control-label">Username</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="<?php print Controller::USER_NAME; ?>"
-                                   placeholder="Enter your Username"/>
-                        </div>
-                    </div>
-                </div>
+    <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus
+           name="<?php print Controller::USER_NAME; ?>">
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+           name="<?php print Controller::USER_PASSWORD; ?>">
 
-                <div class="form-group">
-                    <label for="password" class="cols-sm-2 control-label">Password</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="<?php print Controller::USER_PASSWORD; ?>"
-                                   id="email"
-                                   placeholder="Enter your Password"/>
-                        </div>
-                    </div>
-                </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+</form>
 
-                <div class="form-group ">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
-                </div>
-
-                <div class="login-register">
-                    <a href="index.php">Not a user yet? Click here to register</a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<form class="form-login" method="post"
+      action="<?php echo Util::action(Controller::ACTION_REGISTER, array('view' => $view)); ?>">
+    <button class="btn btn-link btn-lg" type="submit">Register</button>
+</form>
 
 <?php require_once('partials/footer.php'); ?>
