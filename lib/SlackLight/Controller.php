@@ -14,6 +14,7 @@ class Controller extends BaseObject
     const ACTION_LOGOUT = 'logout';
     const USER_NAME = 'userName';
     const USER_PASSWORD = 'password';
+    const CHANNELS = "channels[]";
 
     private static $instance = false;
 
@@ -56,7 +57,7 @@ class Controller extends BaseObject
                 if (!AuthenticationManager::register($_REQUEST[self::USER_NAME], $_REQUEST[self::USER_PASSWORD])) {
                     self::forwardRequest(['Failed to register. User already exists.']);
                 }
-                Util::redirect();
+                Util::redirect("index.php");
                 break;
             default:
                 throw new \Exception('Unknown controller action: '.$action);
