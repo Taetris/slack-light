@@ -51,7 +51,7 @@ class Controller extends BaseObject
                 break;
             case self::ACTION_LOGOUT:
                 AuthenticationManager::signOut();
-                Util::redirect();
+                Util::redirect("index.php");
                 break;
             case self::ACTION_REGISTER:
                 if (!AuthenticationManager::register($_REQUEST[self::USER_NAME], $_REQUEST[self::USER_PASSWORD])) {

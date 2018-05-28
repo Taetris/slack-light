@@ -15,8 +15,6 @@ if (isset($errors) && is_array($errors)): ?>
 <?php endif; ?>
 <!--/display error messages-->
 
-</div>
-
 <script src="assets/jquery-1.11.2.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 

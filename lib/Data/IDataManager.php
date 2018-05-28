@@ -4,7 +4,9 @@ namespace Data;
 
 interface IDataManager {
 
-    public static function getChannels(): array;
+    public static function getAllChannels(): array;
+
+    public static function getChannelsForUser($userName): array;
 
     public static function storeUser($userName, $passwordHash): bool;
 

@@ -6,9 +6,14 @@ include 'IDataManager.php';
 
 class DataManager implements IDataManager
 {
-    public static function getChannels(): array
+    public static function getAllChannels(): array
     {
         return self::getMockData('channels');
+    }
+
+    public static function getChannelsForUser($userName): array
+    {
+        return self::getAllChannels();
     }
 
     public static function storeUser($userName, $passwordHash): bool

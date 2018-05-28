@@ -22,7 +22,7 @@ use Util\Util;
     <div class="btn-group-vertical">
         <label class="w-100" for="selectChannels">Channels</label>
         <select class="mb-3" id="selectChannels" name="<?php echo Controller::CHANNELS ?>" multiple required>
-            <?php foreach (DataManager::getChannels() as $channel) { ?>
+            <?php foreach (DataManager::getAllChannels() as $channel) { ?>
                 <option value="<?php echo $channel->getName(); ?>"><?php echo $channel->getName(); ?></option>
             <?php } ?>
         </select>

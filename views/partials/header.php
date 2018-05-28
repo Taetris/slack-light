@@ -16,10 +16,7 @@ if (isset($_GET["errors"])) {
 
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="assets/main.css" rel="stylesheet">
 
 </head>
 <body class="text-center">
-
-<div class="container">
 
