@@ -10,7 +10,7 @@ class DataManager implements IDataManager
 
     public static function storePost($channelId, $title, $content, $userName, $timestamp): bool
     {
-        self::$posts[] = new Post(1, $channelId, $title, $content, $userName, $timestamp);
+        self::$posts[] = new Post(1, $channelId, $title, $content, $userName, $timestamp, false);
         $_SESSION['posts'] = self::$posts;
         //stub
         return true;
@@ -78,16 +78,16 @@ class DataManager implements IDataManager
                 break;
             case 'posts':
                 $data = [
-                    1 => new Post(1, 1, "Memory", "Memory is being handled by the garbage collector.", "admin", date("Y-m-d h:i:sa")),
-                    2 => new Post(2, 2, "Memory", "This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface.", "admin", date("Y-m-d h:i:sa")),
-                    3 => new Post(3, 1, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa")),
-                    4 => new Post(4, 1, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
-                    5 => new Post(5, 2, "Memory", "This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface.", "admin", date("Y-m-d h:i:sa")),
-                    6 => new Post(6, 2, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
-                    7 => new Post(7, 1, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa")),
-                    8 => new Post(8, 2, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
-                    9 => new Post(9, 1, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa")),
-                    10 => new Post(10, 2, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
+                    1 => new Post(1, 1, "Memory", "Memory is being handled by the garbage collector.", "admin", date("Y-m-d h:i:sa"), false),
+                    2 => new Post(2, 2, "Memory", "This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface.", "admin", date("Y-m-d h:i:sa"), false),
+                    3 => new Post(3, 1, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa"), false),
+                    4 => new Post(4, 1, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa"), true),
+                    5 => new Post(5, 2, "Memory", "This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface.", "admin", date("Y-m-d h:i:sa"), true),
+                    6 => new Post(6, 2, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa"), false),
+                    7 => new Post(7, 1, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa"), false),
+                    8 => new Post(8, 2, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa"), true),
+                    9 => new Post(9, 1, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa"), true),
+                    10 => new Post(10, 2, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa"), false),
                 ];
                 break;
         }

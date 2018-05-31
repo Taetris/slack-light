@@ -20,7 +20,11 @@ class Controller extends BaseObject
     const TITLE = "title";
     const CONTENT = "content";
     const CHANNEL_ID = "channelId";
-    const POST_ACTION = "postAction";
+    const PIN_POST = "pinPost";
+    const UNPIN_POST = "unpinPost";
+    const EDIT_POST = "editPost";
+    const DELETE_POST = "deletePost";
+    const POST_ID = "postId";
 
     private static $instance = false;
 
@@ -78,6 +82,14 @@ class Controller extends BaseObject
 
                 DataManager::storePost($channelId, $title, $content, $user->getUserName(), $timestamp);
                 Util::redirect();
+                break;
+            case self::PIN_POST:
+                break;
+            case self::UNPIN_POST:
+                break;
+            case self::EDIT_POST:
+                break;
+            case self::DELETE_POST:
                 break;
             default:
                 throw new \Exception('Unknown controller action: '.$action);
