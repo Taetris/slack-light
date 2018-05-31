@@ -11,22 +11,39 @@ use Util\Util;
 </div>
 
 <?php
-    $i = 0;
-    $count = count($posts);
-    foreach ($posts as $post) { $i++; ?>
+$i = 0;
+$count = count($posts);
+foreach ($posts as $post) {
+    $i++; ?>
     <div class="container float-left text-left mt-3 justify-content-between"
-            <?php if ($i === $count) { ?>
-             style="margin-bottom: 100px"
-            <?php } ?>>
-        <div class="row">
-            <nav class="navbar navbar-light bg-light" style="border-radius: 10px">
+        <?php if ($i === $count) { ?>
+            style="margin-bottom: 100px"
+        <?php } ?>>
+        <nav class="navbar navbar-light bg-light" style="border-radius: 10px">
+            <div class="row w-75">
                 <div class="col"><b>@<?php echo $post->getAuthor();
                         echo ': ';
-                        echo $post->getTimestamp(); ?></b></div>
+                        echo $post->getTimestamp(); ?></b>
+                </div>
                 <div class="w-100"></div>
                 <div class="col"><b><?php echo $post->getTitle(); ?></b> <?php echo $post->getContent(); ?></div>
-            </nav>
-        </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <div role="separator" class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </div>
 <?php } ?>
 

@@ -20,6 +20,7 @@ class Controller extends BaseObject
     const TITLE = "title";
     const CONTENT = "content";
     const CHANNEL_ID = "channelId";
+    const POST_ACTION = "postAction";
 
     private static $instance = false;
 
@@ -66,6 +67,10 @@ class Controller extends BaseObject
                 break;
             case self::SEND_POST:
                 $user = AuthenticationManager::getAuthenticatedUser();
+                if ($user == null) {
+                    self::forwardRequest(['Please log in first..']);
+                }
+
                 $title = $_REQUEST[self::TITLE];
                 $content = $_REQUEST[self::CONTENT];
                 $channelId = $_REQUEST[self::CHANNEL_ID];
