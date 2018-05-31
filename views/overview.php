@@ -34,7 +34,7 @@ $posts = DataManager::getPostsForChannel($channelId);
     } ?>
 </main>
 
-<div class="container-fluid">
+<div class="container-fluid" onscroll="updateSeenMessages()">
     <div class="row">
         <nav class="col-md-1 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
@@ -54,6 +54,16 @@ $posts = DataManager::getPostsForChannel($channelId);
         </nav>
     </div>
 </div>
+
+<script>
+    document.addEventListener('scroll', function(event) {
+        console.log('scrolling');
+        let elements = document.getElementsByClassName("badge badge-danger");
+        while(elements.length > 0){
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+    }, true);
+</script>
 
 <?php require_once('partials/footer.php'); ?>
 

@@ -7,10 +7,13 @@ use Util\Util;
 foreach ($posts as $post) {
     if ($post->isPinned()) { ?>
         <div class="container float-left text-left mt-3 justify-content-between">
-            <nav class="navbar navbar-light bg-light" style="border-radius: 10px; border: 2px solid midnightblue;">
+            <nav class="navbar navbar-light bg-light border-bottom">
 
                 <div class="row w-75">
-                    <div class="col"><b>@<?php echo $post->getAuthor();
+                    <div class="col">
+                        <span class="badge badge-info">Pinned</span>
+
+                        <b>@<?php echo $post->getAuthor();
                             echo ': ';
                             echo $post->getTimestamp(); ?></b>
                     </div>
@@ -34,7 +37,7 @@ foreach ($posts as $post) {
                             $user = AuthenticationManager::getAuthenticatedUser();
                             if ($latestPost->getId() === $post->getId() && $latestPost->getAuthor() === $user->getUserName()) { ?>
                                 <form method="post"
-                                      action="<?php echo $_SERVER['PHP_SELF'] ?>?view=overview&channelId=<?php echo urlencode($post->getChannelId()); ?>&postId=<?php echo urlencode($post->getId());?>">
+                                      action="<?php echo $_SERVER['PHP_SELF'] ?>?view=overview&channelId=<?php echo urlencode($post->getChannelId()); ?>&postId=<?php echo urlencode($post->getId()); ?>">
                                     <button class="dropdown-item" type="submit">Edit</button>
                                 </form>
                                 <form method="post"
@@ -50,3 +53,5 @@ foreach ($posts as $post) {
         </div>
     <?php }
 } ?>
+
+

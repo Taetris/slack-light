@@ -15,9 +15,14 @@ foreach ($posts as $post) {
                 style="margin-bottom: 200px;"
             <?php } ?>>
 
-            <nav class="navbar navbar-light bg-light border-bottom" style="border-radius: 10px;">
+            <nav class="navbar navbar-light bg-light border-bottom"">
                 <div class="row w-75">
-                    <div class="col"><b>@<?php echo $post->getAuthor();
+                    <div class="col">
+                        <?php if (!$post->isSeen()) { ?>
+                            <span ="unseenPostBadge" class="badge badge-danger">New</span>
+                        <?php } ?>
+
+                        <b>@<?php echo $post->getAuthor();
                             echo ': ';
                             echo $post->getTimestamp(); ?></b>
                     </div>
@@ -41,7 +46,7 @@ foreach ($posts as $post) {
                             $user = AuthenticationManager::getAuthenticatedUser();
                             if ($latestPost->getId() === $post->getId() && $latestPost->getAuthor() === $user->getUserName()) { ?>
                                 <form method="post"
-                                      action="<?php echo $_SERVER['PHP_SELF'] ?>?view=overview&channelId=<?php echo urlencode($post->getChannelId()); ?>&postId=<?php echo urlencode($post->getId());?>">
+                                      action="<?php echo $_SERVER['PHP_SELF'] ?>?view=overview&channelId=<?php echo urlencode($post->getChannelId()); ?>&postId=<?php echo urlencode($post->getId()); ?>">
                                     <button class="dropdown-item" type="submit">Edit</button>
                                 </form>
                                 <form method="post"
