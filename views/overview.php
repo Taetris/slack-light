@@ -15,16 +15,17 @@ $posts = DataManager::getPostsForChannel($channelId);
 
 <link href="views/css/overview.css" rel="stylesheet">
 
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
     <a class="navbar-brand col-md-1 mr-0" href="#">Slack Light</a>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
 
-    <form class="navbar-brand col-sm-1 mr-0 text-center" method="post" action="<?php echo Util::action(Controller::ACTION_LOGOUT); ?>">
+    <form class="navbar-brand col-sm-1 mr-0 text-center" method="post"
+          action="<?php echo Util::action(Controller::ACTION_LOGOUT); ?>">
         <button class="signOut" type="submit">Sign Out</button>
     </form>
 </nav>
 
-<main class="ml-sm-auto col-lg-11 pt-3">
+<main id="mainContent" class="ml-sm-auto col-lg-11 pt-3">
     <?php if ($channelId == null) {
         require_once('partials/welcome.php');
     } else {

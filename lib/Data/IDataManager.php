@@ -4,6 +4,8 @@ namespace Data;
 
 interface IDataManager {
 
+    public static function storePost($channelId, $title, $content, $userName, $timestamp): bool;
+
     public static function getPostsForChannel($channelId): array;
 
     public static function getChannelForId($channelId);

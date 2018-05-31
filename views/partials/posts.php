@@ -1,31 +1,48 @@
 <?php
 
 use Data\DataManager;
+use SlackLight\Controller;
+use Util\Util;
 
 ?>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-5 pb-2 mb-3 border-bottom">
     <h1 class="h2"><?php echo DataManager::getChannelForId($channelId)->getName(); ?></h1>
 </div>
 
-<?php foreach ($posts as $post) { ?>
-    <div class="container float-left text-left border-bottom mt-3 justify-content-between">
+<?php
+    $i = 0;
+    $count = count($posts);
+    foreach ($posts as $post) { $i++; ?>
+    <div class="container float-left text-left mt-3 justify-content-between"
+            <?php if ($i === $count) { ?>
+             style="margin-bottom: 100px"
+            <?php } ?>>
         <div class="row">
-            <div class="col"><b>@<?php echo $post->getAuthor(); echo ': '; echo $post->getTimestamp();?></b></div>
-            <div class="w-100"></div>
-            <div class="col"><b><?php echo $post->getTitle();?></b> <?php echo $post->getContent();?></div>
+            <nav class="navbar navbar-light bg-light" style="border-radius: 10px">
+                <div class="col"><b>@<?php echo $post->getAuthor();
+                        echo ': ';
+                        echo $post->getTimestamp(); ?></b></div>
+                <div class="w-100"></div>
+                <div class="col"><b><?php echo $post->getTitle(); ?></b> <?php echo $post->getContent(); ?></div>
+            </nav>
         </div>
-        <br>
     </div>
 <?php } ?>
 
-<?php foreach ($posts as $post) { ?>
-    <div class="container float-left text-left border-bottom mt-3 justify-content-between">
-        <div class="row">
-            <div class="col"><b>@<?php echo $post->getAuthor(); echo ': '; echo $post->getTimestamp();?></b></div>
-            <div class="w-100"></div>
-            <div class="col"><b><?php echo $post->getTitle();?></b> <?php echo $post->getContent();?></div>
+<form method="post"
+      action="<?php echo Util::action(Controller::SEND_POST, array('view' => $view, Controller::CHANNEL_ID => $channelId)); ?>">
+    <div class="container mb-3 fixed-bottom">
+        <div class="input-group">
+            <input id="postInput" autocomplete="off" type="text" class="form-control" placeholder="Title"
+                   aria-label="Title"
+                   aria-describedby="basic-addon2" required name="<?php echo Controller::TITLE; ?>">
+            <input id="postInput" autocomplete="off" type="text" class="form-control" placeholder="Content"
+                   aria-label="Content"
+                   aria-describedby="basic-addon2" required name="<?php echo Controller::CONTENT; ?>">
+            <div class="input-group-append">
+                <button id="postInput" class="btn btn-outline-secondary" type="submit">Send</button>
+            </div>
         </div>
-        <br>
     </div>
-<?php } ?>
+</form>

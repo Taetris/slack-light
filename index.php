@@ -4,7 +4,7 @@ use SlackLight\Controller;
 require_once('inc/bootstrap.php');
 
 if (AuthenticationManager::isAuthenticated()) {
-    $default_view = 'welcome';
+    $default_view = 'overview';
 } else {
     $default_view = 'login';
 }

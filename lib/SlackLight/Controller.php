@@ -3,6 +3,7 @@
 namespace SlackLight;
 
 use Base\BaseObject;
+use Data\DataManager;
 use Util\Util;
 
 class Controller extends BaseObject
@@ -15,6 +16,10 @@ class Controller extends BaseObject
     const USER_NAME = 'userName';
     const USER_PASSWORD = 'password';
     const CHANNELS = "channels[]";
+    const SEND_POST = "sendPost";
+    const TITLE = "title";
+    const CONTENT = "content";
+    const CHANNEL_ID = "channelId";
 
     private static $instance = false;
 
@@ -58,6 +63,16 @@ class Controller extends BaseObject
                     self::forwardRequest(['Failed to register. User already exists.']);
                 }
                 Util::redirect("index.php");
+                break;
+            case self::SEND_POST:
+                $user = AuthenticationManager::getAuthenticatedUser();
+                $title = $_REQUEST[self::TITLE];
+                $content = $_REQUEST[self::CONTENT];
+                $channelId = $_REQUEST[self::CHANNEL_ID];
+                $timestamp = date("Y-m-d h:i:sa");
+
+                DataManager::storePost($channelId, $title, $content, $user->getUserName(), $timestamp);
+                Util::redirect();
                 break;
             default:
                 throw new \Exception('Unknown controller action: '.$action);
