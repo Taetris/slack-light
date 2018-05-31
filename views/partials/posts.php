@@ -4,6 +4,9 @@ use Data\DataManager;
 use SlackLight\Controller;
 use Util\Util;
 
+$postId = isset($_REQUEST[Controller::POST_ID]) ? (int)$_REQUEST[Controller::POST_ID] : -1;
+$postToEdit = DataManager::getPostById($postId);
+
 ?>
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-5 pb-2 mb-3 border-bottom">
@@ -11,22 +14,37 @@ use Util\Util;
 </div>
 
 <?php
-    $latestPost = end($posts);
+$latestPost = end($posts);
 
-    require_once ("pinnedPosts.php");
-    require_once ("unpinnedPosts.php");
+require_once("pinnedPosts.php");
+require_once("unpinnedPosts.php");
 ?>
 
 <form method="post"
-      action="<?php echo Util::action(Controller::SEND_POST, array('view' => $view, Controller::CHANNEL_ID => $channelId)); ?>">
+      action="
+      <?php if ($postToEdit == null) {
+          echo Util::action(Controller::SEND_POST, array('view' => $view, Controller::CHANNEL_ID => $channelId));
+      } else {
+          echo Util::action(Controller::EDIT_POST, array('view' => $view, Controller::CHANNEL_ID => $channelId, Controller::POST_ID => $postToEdit->getId()));
+      } ?>">
     <div class="container mb-3 fixed-bottom">
         <div class="input-group">
             <input id="postInput" autocomplete="off" type="text" class="form-control" placeholder="Title"
                    aria-label="Title"
-                   aria-describedby="basic-addon2" required name="<?php echo Controller::TITLE; ?>">
+                   aria-describedby="basic-addon2" required name="<?php echo Controller::TITLE; ?>"
+                <?php if ($postToEdit != null) { ?>
+                    value="<?php echo $postToEdit->getTitle(); ?>"
+                <?php } else { ?>
+                    value=""
+                <?php } ?>>
             <input id="postInput" autocomplete="off" type="text" class="form-control" placeholder="Content"
                    aria-label="Content"
-                   aria-describedby="basic-addon2" required name="<?php echo Controller::CONTENT; ?>">
+                   aria-describedby="basic-addon2" required name="<?php echo Controller::CONTENT; ?>"
+                <?php if ($postToEdit != null) { ?>
+                    value="<?php echo $postToEdit->getContent(); ?>"
+                <?php } else { ?>
+                    value=""
+                <?php } ?>>
             <div class="input-group-append">
                 <button id="postInput" class="btn btn-outline-secondary" type="submit">Send</button>
             </div>

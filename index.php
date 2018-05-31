@@ -4,12 +4,10 @@ use SlackLight\Controller;
 require_once('inc/bootstrap.php');
 
 if (AuthenticationManager::isAuthenticated()) {
-    $default_view = 'overview';
+    $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'overview';
 } else {
-    $default_view = 'login';
+    $view = 'login';
 }
-
-$view = isset($_REQUEST['view']) ? $_REQUEST['view'] : $default_view;
 
 $postAction = isset($_REQUEST[Controller::ACTION]) ? $_REQUEST[Controller::ACTION] : null;
 if ($postAction != null) {

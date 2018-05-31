@@ -6,9 +6,11 @@ use SlackLight\Controller;
 use Util\Util;
 
 $user = AuthenticationManager::getAuthenticatedUser();
-$channelsForUser = DataManager::getChannelsForUser($user);
+if ($user != null) {
+    $channelsForUser = DataManager::getChannelsForUser($user->getUserName());
+}
 
-$channelId = isset($_REQUEST['channelId']) ? (int)$_REQUEST['channelId'] : null;
+$channelId = isset($_REQUEST['channelId']) ? (int)$_REQUEST['channelId'] : -1;
 $posts = DataManager::getPostsForChannel($channelId);
 
 ?>
@@ -26,7 +28,7 @@ $posts = DataManager::getPostsForChannel($channelId);
 </nav>
 
 <main id="mainContent" class="ml-sm-auto col-lg-11 pt-3">
-    <?php if ($channelId == null) {
+    <?php if ($channelId == -1) {
         require_once('partials/welcome.php');
     } else {
         require_once('partials/posts.php');

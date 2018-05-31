@@ -6,33 +6,51 @@ include 'IDataManager.php';
 
 class DataManager implements IDataManager
 {
-    public static function deletePost($postId): bool
+    public static function deletePost(int $postId): bool
     {
         return true;
     }
 
-    public static function pinPostForUser($user, $postId): bool
+    public static function pinPostForUser(string $userName, int $postId): bool
     {
         return true;
     }
 
-    public static function unpinPostForUser($user, $postId): bool
+    public static function unpinPostForUser(string $userName, int $postId): bool
     {
         return true;
     }
 
-    public static function storePost($channelId, $title, $content, $userName, $timestamp): bool
+    public static function storePost(int $channelId, string $title, string $content, string $userName, string $timestamp): bool
     {
         return true;
     }
 
-    public static function getPostsForChannel($channelId): array
+    public static function editPost(int $postId, string $title, string $content): bool
+    {
+        return true;
+    }
+
+    public static function getPostsForChannel(int $channelId): array
     {
         return self::getMockData('posts');
     }
 
-    public static function getChannelForId($channelId)
+    public static function getPostById(int $postId)
     {
+        if ($postId == -1) {
+            return null;
+        }
+
+        return self::getMockData('posts')[$postId];
+    }
+
+    public static function getChannelForId(int $channelId)
+    {
+        if ($channelId == -1) {
+            return null;
+        }
+
         return self::getAllChannels()[$channelId];
     }
 
@@ -41,12 +59,12 @@ class DataManager implements IDataManager
         return self::getMockData('channels');
     }
 
-    public static function getChannelsForUser($userName): array
+    public static function getChannelsForUser(string $userName): array
     {
         return self::getAllChannels();
     }
 
-    public static function storeUser($userName, $passwordHash): bool
+    public static function storeUser(string $userName, string $passwordHash): bool
     {
         return true;
     }

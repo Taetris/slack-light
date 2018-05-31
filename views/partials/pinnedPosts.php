@@ -30,12 +30,11 @@ foreach ($posts as $post) {
                                 <button class="dropdown-item" type="submit">Unpin</button>
                             </form>
 
-
                             <?php
                             $user = AuthenticationManager::getAuthenticatedUser();
                             if ($latestPost->getId() === $post->getId() && $latestPost->getAuthor() === $user->getUserName()) { ?>
                                 <form method="post"
-                                      action="<?php echo Util::action(Controller::EDIT_POST, array('view' => $view, Controller::POST_ID => $post->getId())) ?>">
+                                      action="<?php echo $_SERVER['PHP_SELF'] ?>?view=overview&channelId=<?php echo urlencode($post->getChannelId()); ?>&postId=<?php echo urlencode($post->getId());?>">
                                     <button class="dropdown-item" type="submit">Edit</button>
                                 </form>
                                 <form method="post"

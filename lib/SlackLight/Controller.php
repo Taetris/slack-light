@@ -111,6 +111,21 @@ class Controller extends BaseObject
                 Util::redirect();
                 break;
             case self::EDIT_POST:
+                $user = AuthenticationManager::getAuthenticatedUser();
+                if ($user == null) {
+                    self::forwardRequest(['Session expired. Please log in.']);
+                }
+
+                $title = $_REQUEST[self::TITLE];
+                $content = $_REQUEST[self::CONTENT];
+                $postId = $_REQUEST[self::POST_ID];
+                $channelId = $_REQUEST[self::CHANNEL_ID];
+
+                if (!DataManager::editPost($postId, $title, $content)) {
+                    self::forwardRequest(['Failed to update the post.']);
+                };
+
+                Util::redirect("index.php?view=overview&channelId=".$channelId);
                 break;
             case self::DELETE_POST:
                 $user = AuthenticationManager::getAuthenticatedUser();
