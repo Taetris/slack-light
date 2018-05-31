@@ -11,6 +11,8 @@ use Util\Util;
 </div>
 
 <?php
+    $latestPost = end($posts);
+
     require_once ("pinnedPosts.php");
     require_once ("unpinnedPosts.php");
 ?>

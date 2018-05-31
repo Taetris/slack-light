@@ -72,7 +72,7 @@ class Controller extends BaseObject
             case self::SEND_POST:
                 $user = AuthenticationManager::getAuthenticatedUser();
                 if ($user == null) {
-                    self::forwardRequest(['Please log in first..']);
+                    self::forwardRequest(['Session expired. Please log in.']);
                 }
 
                 $title = $_REQUEST[self::TITLE];
@@ -80,16 +80,49 @@ class Controller extends BaseObject
                 $channelId = $_REQUEST[self::CHANNEL_ID];
                 $timestamp = date("Y-m-d h:i:sa");
 
-                DataManager::storePost($channelId, $title, $content, $user->getUserName(), $timestamp);
+                if (!DataManager::storePost($channelId, $title, $content, $user->getUserName(), $timestamp)) {
+                    self::forwardRequest(['Failed to send post.']);
+                }
+
                 Util::redirect();
                 break;
             case self::PIN_POST:
+                $user = AuthenticationManager::getAuthenticatedUser();
+                if ($user == null) {
+                    self::forwardRequest(['Session expired. Please log in.']);
+                }
+
+                if (!DataManager::pinPostForUser($user->getUserName(), $_REQUEST[self::POST_ID])) {
+                    self::forwardRequest(['Failed to pin post.']);
+                }
+
+                Util::redirect();
                 break;
             case self::UNPIN_POST:
+                $user = AuthenticationManager::getAuthenticatedUser();
+                if ($user == null) {
+                    self::forwardRequest(['Session expired. Please log in.']);
+                }
+
+                if (!DataManager::unpinPostForUser($user->getUserName(), $_REQUEST[self::POST_ID])) {
+                    self::forwardRequest(['Failed to unpin post.']);
+                }
+
+                Util::redirect();
                 break;
             case self::EDIT_POST:
                 break;
             case self::DELETE_POST:
+                $user = AuthenticationManager::getAuthenticatedUser();
+                if ($user == null) {
+                    self::forwardRequest(['Session expired. Please log in.']);
+                }
+
+                if (!DataManager::deletePost($_REQUEST[self::POST_ID])) {
+                    self::forwardRequest(['Failed to delete post.']);
+                }
+
+                Util::redirect();
                 break;
             default:
                 throw new \Exception('Unknown controller action: '.$action);

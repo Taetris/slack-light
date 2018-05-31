@@ -6,20 +6,29 @@ include 'IDataManager.php';
 
 class DataManager implements IDataManager
 {
-    private static $posts = array();
+    public static function deletePost($postId): bool
+    {
+        return true;
+    }
+
+    public static function pinPostForUser($user, $postId): bool
+    {
+        return true;
+    }
+
+    public static function unpinPostForUser($user, $postId): bool
+    {
+        return true;
+    }
 
     public static function storePost($channelId, $title, $content, $userName, $timestamp): bool
     {
-        self::$posts[] = new Post(1, $channelId, $title, $content, $userName, $timestamp, false);
-        $_SESSION['posts'] = self::$posts;
-        //stub
         return true;
     }
 
     public static function getPostsForChannel($channelId): array
     {
-        $posts = isset($_SESSION['posts']) ? $_SESSION['posts'] : array();
-        return array_merge(self::getMockData('posts'), $posts);
+        return self::getMockData('posts');
     }
 
     public static function getChannelForId($channelId)
@@ -39,7 +48,6 @@ class DataManager implements IDataManager
 
     public static function storeUser($userName, $passwordHash): bool
     {
-        // stub
         return true;
     }
 

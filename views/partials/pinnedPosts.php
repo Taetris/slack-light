@@ -1,5 +1,6 @@
 <?php
 
+use SlackLight\AuthenticationManager;
 use SlackLight\Controller;
 use Util\Util;
 
@@ -26,16 +27,22 @@ foreach ($posts as $post) {
                         <div class="dropdown-menu">
                             <form method="post"
                                   action="<?php echo Util::action(Controller::UNPIN_POST, array('view' => $view, Controller::POST_ID => $post->getId())) ?>">
-                                <button class="dropdown-item" type="submit">Pin</button>
+                                <button class="dropdown-item" type="submit">Unpin</button>
                             </form>
-                            <form method="post"
-                                  action="<?php echo Util::action(Controller::EDIT_POST, array('view' => $view, Controller::POST_ID => $post->getId())) ?>">
-                                <button class="dropdown-item" type="submit">Edit</button>
-                            </form>
-                            <form method="post"
-                                  action="<?php echo Util::action(Controller::DELETE_POST, array('view' => $view, Controller::POST_ID => $post->getId())) ?>">
-                                <button class="dropdown-item" type="submit">Delete</button>
-                            </form>
+
+
+                            <?php
+                            $user = AuthenticationManager::getAuthenticatedUser();
+                            if ($latestPost->getId() === $post->getId() && $latestPost->getAuthor() === $user->getUserName()) { ?>
+                                <form method="post"
+                                      action="<?php echo Util::action(Controller::EDIT_POST, array('view' => $view, Controller::POST_ID => $post->getId())) ?>">
+                                    <button class="dropdown-item" type="submit">Edit</button>
+                                </form>
+                                <form method="post"
+                                      action="<?php echo Util::action(Controller::DELETE_POST, array('view' => $view, Controller::POST_ID => $post->getId())) ?>">
+                                    <button class="dropdown-item" type="submit">Delete</button>
+                                </form>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
