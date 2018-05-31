@@ -6,6 +6,16 @@ include 'IDataManager.php';
 
 class DataManager implements IDataManager
 {
+    public static function getPostsForChannel($channelId): array
+    {
+        return self::getMockData('posts');
+    }
+
+    public static function getChannelForId($channelId)
+    {
+        return self::getAllChannels()[$channelId];
+    }
+
     public static function getAllChannels(): array
     {
         return self::getMockData('channels');
@@ -55,10 +65,26 @@ class DataManager implements IDataManager
                     2 => new User(2, "admin2", "b9b6a1904a89af73a1ade05206ad3374ccb49d53"), //USER = admin2; PASSWORD = admin2
                 ];
                 break;
+            case 'posts':
+                $data = [
+                    1 => new Post(1, "Memory", "Memory is being handled by the garbage collector.", "admin", date("Y-m-d h:i:sa")),
+                    2 => new Post(2, "Memory", "This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface.", "admin", date("Y-m-d h:i:sa")),
+                    3 => new Post(3, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa")),
+                    4 => new Post(4, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
+                    5 => new Post(5, "Memory", "This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface.", "admin", date("Y-m-d h:i:sa")),
+                    6 => new Post(6, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
+                    7 => new Post(7, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa")),
+                    8 => new Post(8, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
+                    9 => new Post(9, "Memory", "To implement a modifiable collection, the programmer must additionally override this class's add method.", "admin", date("Y-m-d h:i:sa")),
+                    10 => new Post(10, "Memory", "Memory is being handled by the garbage collector.", "admin2", date("Y-m-d h:i:sa")),
+                ];
+                break;
         }
 
         return $data;
     }
+
+
 }
 
 

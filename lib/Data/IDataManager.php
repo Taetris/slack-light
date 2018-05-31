@@ -4,6 +4,10 @@ namespace Data;
 
 interface IDataManager {
 
+    public static function getPostsForChannel($channelId): array;
+
+    public static function getChannelForId($channelId);
+
     public static function getAllChannels(): array;
 
     public static function getChannelsForUser($userName): array;

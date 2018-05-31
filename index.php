@@ -1,8 +1,13 @@
-<?php use SlackLight\Controller;
+<?php use SlackLight\AuthenticationManager;
+use SlackLight\Controller;
 
 require_once('inc/bootstrap.php');
 
-$default_view = 'login';
+if (AuthenticationManager::isAuthenticated()) {
+    $default_view = 'welcome';
+} else {
+    $default_view = 'login';
+}
 
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : $default_view;
 

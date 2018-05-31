@@ -4,10 +4,6 @@ use SlackLight\AuthenticationManager;
 use SlackLight\Controller;
 use Util\Util;
 
-if (AuthenticationManager::isAuthenticated()) {
-    Util::redirect("index.php?view=overview");
-}
-
 $userName = isset($_REQUEST['userName']) ? $_REQUEST['userName'] : null;
 
 ?>
