@@ -19,10 +19,9 @@ $posts = DataManager::getPostsForChannel($channelId);
 
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
     <a class="navbar-brand col-md-1 mr-0" href="#">Slack Light</a>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
 
     <form class="navbar-brand col-sm-1 mr-0 text-center" method="post"
-          action="<?php echo Util::action(Controller::ACTION_LOGOUT); ?>">
+          action="<?php echo Util::action(Controller::ACTION_LOGOUT, array('view' => $view)); ?>">
         <button class="signOut" type="submit">Sign Out</button>
     </form>
 </nav>
