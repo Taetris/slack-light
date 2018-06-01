@@ -92,8 +92,8 @@ class DataManager implements IDataManager
         switch ($type) {
             case 'channels':
                 $data = [
-                    1 => new Channel(1, "Java", "Programming Languages"),
-                    2 => new Channel(2, "Design Patterns", "Software Design"),
+                    1 => new Channel(1, "Java"),
+                    2 => new Channel(2, "Design Patterns"),
                 ];
                 break;
             case 'users':
