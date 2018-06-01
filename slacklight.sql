@@ -56,12 +56,11 @@ CREATE TABLE favourites (
 CREATE TABLE lastReadPost (
   userId int(11) NOT NULL,
   channelId int (11) NOT NULL,
-  postId int(11) NOT NULL,
+  timestamp datetime NOT NULL,
 
   PRIMARY KEY (userId, channelId),
   FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (channelId) REFERENCES channels(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (channelId) REFERENCES channels(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDb AUTO_INCREMENT=1 CHARSET=utf8;;
 
 INSERT INTO channels VALUES (1, 'Random');

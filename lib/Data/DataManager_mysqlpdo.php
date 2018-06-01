@@ -112,8 +112,7 @@ class DataManager implements IDataManager
         $result = self::query($connection, "SELECT * FROM lastReadPost WHERE userId = ? AND channelId = ?;", [$userId, $channelId]);
         $lastSeenPostTimestamp = null;
         if ($p = self::fetchObject($result)) {
-            $post = self::getPostById($p->postId);
-            $lastSeenPostTimestamp = $post->getTimestamp();
+            $lastSeenPostTimestamp = $p->timestamp;
         }
 
         // get pinned posts
@@ -128,9 +127,8 @@ class DataManager implements IDataManager
         while ($post = self::fetchObject($result)) {
             // mark previous posts and posts by the same user as seen
             $newPost = new Post($post->id, $post->channelId, $post->title, $post->content, $post->author, $post->timestamp);
-            if ($lastSeenPostTimestamp != null &&
-                ($post->timestamp <= $lastSeenPostTimestamp
-                || $post->author === $user->getUserName())) {
+            if (($lastSeenPostTimestamp != null && $post->timestamp <= $lastSeenPostTimestamp) ||
+                $post->author === $user->getUserName()) {
                 $newPost->setSeen(true);
             } else {
                 $newPost->setSeen(false);
@@ -147,7 +145,7 @@ class DataManager implements IDataManager
 
         // update last seen post
         if (!empty($posts)) {
-            self::updateLastSeen($userId, $channelId, end($posts)->getId());
+            self::updateLastSeen($userId, $channelId, end($posts)->getTimestamp());
         }
 
         self::close($result);
@@ -156,15 +154,15 @@ class DataManager implements IDataManager
         return $posts;
     }
 
-    private static function updateLastSeen($userId, $channelId, $postId)
+    private static function updateLastSeen($userId, $channelId, $timestamp)
     {
         $connection = self::getConnection();
         $connection->beginTransaction();
 
         try {
             self::query($connection, "
-           INSERT INTO lastReadPost (userId, channelId, postId) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE postId = ?;",
-                [$userId, $channelId, $postId, $postId]);
+           INSERT INTO lastReadPost (userId, channelId, timestamp) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE timestamp = ?;",
+                [$userId, $channelId, $timestamp, $timestamp]);
             $connection->commit();
         } catch (\Exception $e) {
             $connection->rollBack();

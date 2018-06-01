@@ -11,7 +11,10 @@ if ($user != null) {
 }
 
 $channelId = isset($_REQUEST['channelId']) ? (int)$_REQUEST['channelId'] : -1;
-$posts = DataManager::getPostsForChannel($user->getId(), $channelId);
+
+if ($user != null) {
+    $posts = DataManager::getPostsForChannel($user->getId(), $channelId);
+}
 
 ?>
 
@@ -56,10 +59,10 @@ $posts = DataManager::getPostsForChannel($user->getId(), $channelId);
 </div>
 
 <script>
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         console.log('scrolling');
         let elements = document.getElementsByClassName("badge badge-danger");
-        while(elements.length > 0){
+        while (elements.length > 0) {
             elements[0].parentNode.removeChild(elements[0]);
         }
     }, true);
