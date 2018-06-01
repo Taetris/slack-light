@@ -78,9 +78,8 @@ class Controller extends BaseObject
                 $title = $_REQUEST[self::TITLE];
                 $content = $_REQUEST[self::CONTENT];
                 $channelId = $_REQUEST[self::CHANNEL_ID];
-                $timestamp = date("Y-m-d h:i:sa");
 
-                if (!DataManager::storePost($channelId, $title, $content, $user->getUserName(), $timestamp)) {
+                if (!DataManager::storePost($channelId, $title, $content, $user->getUserName())) {
                     self::forwardRequest(['Failed to send post.']);
                 }
 
@@ -92,7 +91,7 @@ class Controller extends BaseObject
                     self::forwardRequest(['Session expired. Please log in.']);
                 }
 
-                if (!DataManager::pinPostForUser($user->getUserName(), $_REQUEST[self::POST_ID])) {
+                if (!DataManager::pinPostForUser($user->getId(), $_REQUEST[self::POST_ID])) {
                     self::forwardRequest(['Failed to pin post.']);
                 }
 
@@ -104,7 +103,7 @@ class Controller extends BaseObject
                     self::forwardRequest(['Session expired. Please log in.']);
                 }
 
-                if (!DataManager::unpinPostForUser($user->getUserName(), $_REQUEST[self::POST_ID])) {
+                if (!DataManager::unpinPostForUser($user->getId(), $_REQUEST[self::POST_ID])) {
                     self::forwardRequest(['Failed to unpin post.']);
                 }
 

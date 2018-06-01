@@ -58,7 +58,7 @@ CREATE TABLE lastReadPost (
   channelId int (11) NOT NULL,
   postId int(11) NOT NULL,
 
-  PRIMARY KEY (userId, channelId, postId),
+  PRIMARY KEY (userId, channelId),
   FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (channelId) REFERENCES channels(id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE

@@ -12,15 +12,15 @@ class Post extends Entity {
     private $isPinned;
     private $isSeen;
 
-    public function __construct(int $id, int $channelId, string $title, string $content, string $author, string $timestamp, bool $isPinned, bool $isSeen) {
+    public function __construct(int $id, int $channelId, string $title, string $content, string $author, string $timestamp) {
         parent::__construct($id);
         $this->channelId = $channelId;
         $this->title = $title;
         $this->content = $content;
         $this->author = $author;
         $this->timestamp = $timestamp;
-        $this->isPinned = $isPinned;
-        $this->isSeen = $isSeen;
+        $this->isPinned = false;
+        $this->isSeen = false;
     }
 
     public function getChannelId() {
@@ -49,5 +49,13 @@ class Post extends Entity {
 
     public function isSeen() {
         return $this->isSeen;
+    }
+
+    public function setPinned($isPinned) {
+        $this->isPinned = $isPinned;
+    }
+
+    public function setSeen($isSeen) {
+        $this->isSeen = $isSeen;
     }
 }

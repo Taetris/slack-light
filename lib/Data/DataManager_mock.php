@@ -11,17 +11,17 @@ class DataManager implements IDataManager
         return true;
     }
 
-    public static function pinPostForUser(string $userName, int $postId): bool
+    public static function pinPostForUser(int $userId, int $postId): bool
     {
         return true;
     }
 
-    public static function unpinPostForUser(string $userName, int $postId): bool
+    public static function unpinPostForUser(int $userId, int $postId): bool
     {
         return true;
     }
 
-    public static function storePost(int $channelId, string $title, string $content, string $userName, string $timestamp): bool
+    public static function storePost(int $channelId, string $title, string $content, string $userName): bool
     {
         return true;
     }
@@ -31,7 +31,7 @@ class DataManager implements IDataManager
         return true;
     }
 
-    public static function getPostsForChannel(int $channelId): array
+    public static function getPostsForChannel(int $userId, int $channelId): array
     {
         return self::getMockData('posts');
     }
@@ -59,7 +59,7 @@ class DataManager implements IDataManager
         return self::getMockData('channels');
     }
 
-    public static function getChannelsForUser(string $userName): array
+    public static function getChannelsForUser(int $userId): array
     {
         return self::getAllChannels();
     }

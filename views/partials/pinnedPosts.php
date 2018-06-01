@@ -7,7 +7,7 @@ use Util\Util;
 foreach ($posts as $post) {
     if ($post->isPinned()) { ?>
         <div class="container float-left text-left mt-3 justify-content-between">
-            <nav class="navbar navbar-light bg-light border-bottom">
+            <nav class="navbar navbar-light bg-light border-bottom" style="border-radius: 10px">
 
                 <div class="row w-75">
                     <div class="col">

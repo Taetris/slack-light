@@ -7,11 +7,11 @@ use Util\Util;
 
 $user = AuthenticationManager::getAuthenticatedUser();
 if ($user != null) {
-    $channelsForUser = DataManager::getChannelsForUser($user->getUserName());
+    $channelsForUser = DataManager::getChannelsForUser($user->getId());
 }
 
 $channelId = isset($_REQUEST['channelId']) ? (int)$_REQUEST['channelId'] : -1;
-$posts = DataManager::getPostsForChannel($channelId);
+$posts = DataManager::getPostsForChannel($user->getId(), $channelId);
 
 ?>
 
@@ -56,7 +56,7 @@ $posts = DataManager::getPostsForChannel($channelId);
 </div>
 
 <script>
-    document.addEventListener('scroll', function(event) {
+    document.addEventListener('click', function(event) {
         console.log('scrolling');
         let elements = document.getElementsByClassName("badge badge-danger");
         while(elements.length > 0){

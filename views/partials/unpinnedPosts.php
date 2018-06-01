@@ -15,7 +15,7 @@ foreach ($posts as $post) {
                 style="margin-bottom: 200px;"
             <?php } ?>>
 
-            <nav class="navbar navbar-light bg-light border-bottom"">
+            <nav class="navbar navbar-light bg-light border-bottom" style="border-radius: 10px">
                 <div class="row w-75">
                     <div class="col">
                         <?php if (!$post->isSeen()) { ?>

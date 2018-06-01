@@ -8,25 +8,95 @@ class DataManager implements IDataManager
 {
     public static function deletePost(int $postId): bool
     {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+
+        try {
+            self::query($connection, "
+            DELETE FROM posts WHERE id = ?", [$postId]);
+            $connection->commit();
+            return true;
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return false;
+        } finally {
+            self::closeConnection($connection);
+        }
     }
 
-    public static function pinPostForUser(string $userName, int $postId): bool
+    public static function pinPostForUser(int $userId, int $postId): bool
     {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+
+        try {
+            self::query($connection, "
+            INSERT INTO favourites (userId, postId) VALUES (?, ?)", [$userId, $postId]);
+            $connection->commit();
+            return true;
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return false;
+        } finally {
+            self::closeConnection($connection);
+        }
     }
 
-    public static function unpinPostForUser(string $userName, int $postId): bool
+    public static function unpinPostForUser(int $userId, int $postId): bool
     {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+
+        try {
+            self::query($connection, "
+            DELETE FROM favourites WHERE userId = ? AND postId = ?", [$userId, $postId]);
+            $connection->commit();
+            return true;
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return false;
+        } finally {
+            self::closeConnection($connection);
+        }
     }
 
-    public static function storePost(int $channelId, string $title, string $content, string $userName, string $timestamp): bool
+    public static function storePost(int $channelId, string $title, string $content, string $userName): bool
     {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+
+        try {
+            self::query($connection, "
+            INSERT INTO posts (channelId, title, content, author, timestamp) VALUES (?, ?, ?, ?, NOW());", [$channelId, $title, $content, $userName]);
+            $connection->commit();
+            return true;
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return false;
+        } finally {
+            self::closeConnection($connection);
+        }
     }
 
     public static function editPost(int $postId, string $title, string $content): bool
     {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+
+        try {
+            self::query($connection, "
+            UPDATE posts SET title = ?, content = ? WHERE id = ?", [$title, $content, $postId]);
+            $connection->commit();
+            return true;
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return false;
+        } finally {
+            self::closeConnection($connection);
+        }
     }
 
-    public static function getPostsForChannel(int $channelId): array
+    public static function getPostsForChannel(int $userId, int $channelId): array
     {
         if ($channelId == -1) {
             return array();
@@ -35,12 +105,49 @@ class DataManager implements IDataManager
         $posts = array();
 
         $connection = self::getConnection();
-        // sort chronologically
-        $result = self::query($connection, "SELECT * FROM posts WHERE channelId = ?;" [$channelId]);
+
+        $user = self::getUserById($userId);
+
+        // get timestamp of last seen post
+        $result = self::query($connection, "SELECT * FROM lastReadPost WHERE userId = ? AND channelId = ?;", [$userId, $channelId]);
+        $lastSeenPostTimestamp = null;
+        if ($p = self::fetchObject($result)) {
+            $post = self::getPostById($p->postId);
+            $lastSeenPostTimestamp = $post->getTimestamp();
+        }
+
+        // get pinned posts
+        $result = self::query($connection, "SELECT * FROM favourites WHERE userId = ?", [$userId]);
+        $pinnedPosts = array();
+        while ($pinnedPost = self::fetchObject($result)) {
+            $pinnedPosts[] = $pinnedPost->postId;
+        }
+
+        $result = self::query($connection, "SELECT * FROM posts WHERE channelId = ? ORDER BY timestamp ASC;", [$channelId]);
 
         while ($post = self::fetchObject($result)) {
-            // missing union with pinned and seen posts
-            $posts[] = new Post($p->id, $p->channelId, $p->title, $p->content, $p->author, $p->timestamp, false, false);
+            // mark previous posts and posts by the same user as seen
+            $newPost = new Post($post->id, $post->channelId, $post->title, $post->content, $post->author, $post->timestamp);
+            if ($lastSeenPostTimestamp != null &&
+                ($post->timestamp <= $lastSeenPostTimestamp
+                || $post->author === $user->getUserName())) {
+                $newPost->setSeen(true);
+            } else {
+                $newPost->setSeen(false);
+            }
+
+            if (in_array($newPost->getId(), $pinnedPosts)) {
+                $newPost->setPinned(true);
+            } else {
+                $newPost->setPinned(false);
+            }
+
+            $posts[] = $newPost;
+        }
+
+        // update last seen post
+        if (!empty($posts)) {
+            self::updateLastSeen($userId, $channelId, end($posts)->getId());
         }
 
         self::close($result);
@@ -49,22 +156,42 @@ class DataManager implements IDataManager
         return $posts;
     }
 
+    private static function updateLastSeen($userId, $channelId, $postId)
+    {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+
+        try {
+            self::query($connection, "
+           INSERT INTO lastReadPost (userId, channelId, postId) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE postId = ?;",
+                [$userId, $channelId, $postId, $postId]);
+            $connection->commit();
+        } catch (\Exception $e) {
+            $connection->rollBack();
+        } finally {
+            self::closeConnection($connection);
+        }
+    }
+
     public static function getPostById(int $postId)
     {
+        if ($postId == -1) {
+            return null;
+        }
+
         $post = null;
 
         $connection = self::getConnection();
         $result = self::query($connection, "SELECT * FROM posts WHERE id = ?;", [$postId]);
 
         if ($p = self::fetchObject($result)) {
-            // we don't care here if the post is pinned or seen
-            $post = new Post($p->id, $p->channelId, $p->title, $p->content, $p->author, $p->timestamp, false, false);
+            $post = new Post($p->id, $p->channelId, $p->title, $p->content, $p->author, $p->timestamp);
         }
 
         self::close($result);
         self::closeConnection($connection);
 
-        return $channels;
+        return $post;
     }
 
     public static function getChannelForId(int $channelId)
@@ -101,13 +228,12 @@ class DataManager implements IDataManager
         return $channels;
     }
 
-    public static function getChannelsForUser(string $userName): array
+    public static function getChannelsForUser(int $userId): array
     {
         $channels = array();
-        $user = self::getUserByUserName($userName);
 
         $connection = self::getConnection();
-        $result = self::query($connection, "SELECT channelId FROM channelsForUser WHERE userId = ?", [$user->getId()]);
+        $result = self::query($connection, "SELECT channelId FROM channelsForUser WHERE userId = ?", [$userId]);
 
         while ($channel = self::fetchObject($result)) {
             $channels[] = self::getChannelForId($channel->channelId);
@@ -119,7 +245,7 @@ class DataManager implements IDataManager
         return $channels;
     }
 
-    public static function storeUser(string $userName, string $passwordHash, $channels): bool
+    public static function storeUser(string $userName, string $passwordHash, array $channels): bool
     {
         $connection = self::getConnection();
         $connection->beginTransaction();
@@ -129,7 +255,7 @@ class DataManager implements IDataManager
             INSERT INTO users (userName, passwordHash) VALUES (?, ?);", [$userName, $passwordHash]);
 
             $user = self::getUserByUserName($userName);
-            foreach($channels as $channel) {
+            foreach ($channels as $channel) {
                 self::query($connection, "INSERT INTO channelsForUser (userId, channelId) VALUES (?, ?);", [$user->getId(), $channel]);
             }
             $connection->commit();
