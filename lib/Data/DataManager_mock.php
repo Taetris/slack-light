@@ -64,7 +64,7 @@ class DataManager implements IDataManager
         return self::getAllChannels();
     }
 
-    public static function storeUser(string $userName, string $passwordHash): bool
+    public static function storeUser(string $userName, string $passwordHash, $channels): bool
     {
         return true;
     }

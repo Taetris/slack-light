@@ -6,7 +6,7 @@ require_once('inc/bootstrap.php');
 if (AuthenticationManager::isAuthenticated()) {
     $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'overview';
 } else {
-    $view = 'login';
+    $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'login';
 }
 
 $postAction = isset($_REQUEST[Controller::ACTION]) ? $_REQUEST[Controller::ACTION] : null;

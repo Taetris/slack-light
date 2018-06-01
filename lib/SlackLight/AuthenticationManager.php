@@ -21,13 +21,13 @@ class AuthenticationManager extends BaseObject
         }
     }
 
-    public static function register(string $userName, string $password): bool
+    public static function register(string $userName, string $password, $channels): bool
     {
         $user = DataManager::getUserByUserName($userName);
         if ($user != null) {
             return false;
         } else {
-            return DataManager::storeUser($userName, hash('sha1', $userName.'|'.$password));
+            return DataManager::storeUser($userName, hash('sha1', $userName.'|'.$password), $channels);
         }
     }
 

@@ -24,7 +24,7 @@ interface IDataManager {
 
     public static function getChannelsForUser(string $userName): array;
 
-    public static function storeUser(string $userName, string $passwordHash): bool;
+    public static function storeUser(string $userName, string $passwordHash, $channels): bool;
 
 	public static function getUserById(int $userId);
 

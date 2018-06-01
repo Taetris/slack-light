@@ -64,7 +64,7 @@ class Controller extends BaseObject
                 Util::redirect("index.php");
                 break;
             case self::ACTION_REGISTER:
-                if (!AuthenticationManager::register($_REQUEST[self::USER_NAME], $_REQUEST[self::USER_PASSWORD])) {
+                if (!AuthenticationManager::register($_REQUEST[self::USER_NAME], $_REQUEST[self::USER_PASSWORD], $_REQUEST['channels'])) {
                     self::forwardRequest(['Failed to register. User already exists.']);
                 }
                 Util::redirect("index.php");

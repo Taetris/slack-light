@@ -18,5 +18,5 @@ spl_autoload_register(
 // create session
 SessionContext::create();
 
-require_once(__DIR__ . '/../lib/Data/DataManager_mock.php');
-//require_once(__DIR__ . '/../lib/Data/DataManager_mysqlpdo.php');
+//require_once(__DIR__ . '/../lib/Data/DataManager_mock.php');
+require_once(__DIR__ . '/../lib/Data/DataManager_mysqlpdo.php');
