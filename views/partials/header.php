@@ -18,5 +18,20 @@ if (isset($_GET["errors"])) {
     <link href="assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 
 </head>
+<?php
+
+use Util\Util;
+
+if (isset($errors) && is_array($errors)): ?>
+    <div class="errors alert alert-danger container mb-3 fixed-bottom text-center">
+        <?php foreach ($errors as $errMsg): ?>
+            <p><?php echo(Util::escape($errMsg)); ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <body class="text-center">
+
+
+<!--/display error messages-->
 
