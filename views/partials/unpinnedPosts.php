@@ -4,12 +4,16 @@ use SlackLight\AuthenticationManager;
 use SlackLight\Controller;
 use Util\Util;
 
-$i = 0;
-$count = count($posts);
-
+$count = 0;
 foreach ($posts as $post) {
-    $i++;
-    if (!$post->isPinned()) { ?>
+    if (!$post->isPinned()) {
+        $count++;
+    }
+}
+
+$i = 0;
+foreach ($posts as $post) {
+    if (!$post->isPinned()) {  $i++; ?>
         <div class="container float-left text-left mt-3 justify-content-between"
             <?php if ($i === $count) { ?>
                 style="margin-bottom: 200px;"

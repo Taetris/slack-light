@@ -319,8 +319,8 @@ class DataManager implements IDataManager
             $type = 'mysql';
             $host = 'localhost';
             $name = 'fh_2018_scm4_S1610307002';
-            $user = 'root';
-            $pass = 'root';
+            $user = 'fh_2018_scm4';
+            $pass = 'fh_2018_scm4';
 
             self::$__connection = new \PDO(
                 $type . ':host=' . $host . ';dbname=' . $name . ';charset=utf8', $user, $pass

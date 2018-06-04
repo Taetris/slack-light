@@ -6,7 +6,7 @@ if (isset($_GET["errors"])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
     <meta charset="utf-8">

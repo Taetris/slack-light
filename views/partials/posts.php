@@ -29,17 +29,15 @@ require_once("unpinnedPosts.php");
       } ?>">
     <div class="container mb-3 fixed-bottom">
         <div class="input-group">
-            <input id="postInput" autocomplete="off" type="text" class="form-control" placeholder="Title"
-                   aria-label="Title"
-                   aria-describedby="basic-addon2" required name="<?php echo Controller::TITLE; ?>"
+            <input autocomplete="off" type="text" class="form-control postInput" placeholder="Title"
+                   aria-label="Title" required name="<?php echo Controller::TITLE; ?>"
                 <?php if ($postToEdit != null) { ?>
                     value="<?php echo $postToEdit->getTitle(); ?>"
                 <?php } else { ?>
                     value=""
                 <?php } ?>>
-            <input id="postInput" autocomplete="off" type="text" class="form-control" placeholder="Content"
-                   aria-label="Content"
-                   aria-describedby="basic-addon2" required name="<?php echo Controller::CONTENT; ?>"
+            <input autocomplete="off" type="text" class="form-control postInput" placeholder="Content"
+                   aria-label="Content" required name="<?php echo Controller::CONTENT; ?>"
                 <?php if ($postToEdit != null) { ?>
                     value="<?php echo $postToEdit->getContent(); ?>"
                 <?php } else { ?>
